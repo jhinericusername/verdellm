@@ -6,6 +6,7 @@ import 'react-circular-progressbar/dist/styles.css'
 import { Leaf, Droplet, Wind, Award, Share2, Download, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { div } from 'framer-motion/client'
 
 export default function Profile() {
   const [timeframe, setTimeframe] = useState<'daily' | 'monthly' | 'lifetime'>('monthly')
@@ -34,11 +35,11 @@ export default function Profile() {
             Back to Chat
             </Link>
         </Button>
-        
+     
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <header className="bg-customgreen text-white p-6">
-          <h1 className="text-3xl font-bold">Welcome, Eco Warrior!</h1>
-          <p className="text-lg mt-2">Your impact is making the planet greener!</p>
+          <h1 className="text-3xl font-bold">Welcome back, Eco Warrior!</h1>
+          <p className="text-lg mt-2">Making the planet greener <strong>one query at a time...</strong></p>
         </header>
 
         <main className="p-6">
@@ -63,7 +64,7 @@ export default function Profile() {
             />
           </div>
 
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-8 drop-shadow">
             <select
               value={timeframe}
               onChange={(e) => setTimeframe(e.target.value as 'daily' | 'monthly' | 'lifetime')}
@@ -75,7 +76,7 @@ export default function Profile() {
             </select>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 mb-8 drop-shadow">
             {badges.map((badge) => (
               <Badge key={badge.name} name={badge.name} achieved={badge.achieved} />
             ))}
@@ -112,7 +113,7 @@ export default function Profile() {
           <div className="flex justify-center gap-4">
             <button
               onClick={() => setShowShareOptions(!showShareOptions)}
-              className="bg-green-600 text-white px-4 py-2 rounded-full flex items-center hover:bg-green-700 transition-colors"
+              className="bg-customgreen text-white px-4 py-2 rounded-full flex items-center hover:bg-green-700 transition-colors"
             >
               <Share2 className="w-5 h-5 mr-2" />
               Share Your Impact
@@ -143,7 +144,7 @@ export default function Profile() {
     </div>
   )
 }
-
+ 
 interface ImpactCardProps{
         icon: React.ReactNode;
         title: string;
