@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Paperclip, Send, User, Plus, Settings, Zap, Leaf, ExternalLink, Earth, Apple, ChartNoAxesCombined} from 'lucide-react'
 import VerdeLogo from "@/lib/images/verdelogo.png"
 import GPTLogo from "@/lib/images/ChatGPT-Logo.png"
+import Link from 'next/link'
 import {
   Dialog,
   DialogContent,
@@ -147,14 +148,25 @@ export default function Component() {
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col">
           {/* Header */}
-        <header >
-          <div className="container mx-auto px-4 py-4 flex justify-center items-center">
-            <div className="flex items-center space-x-2">
-              <img src={VerdeLogo.src} alt="verde logo" className='h-8 w-8' />
-              <span className="text-2xl font-bold text-customgreen">verde</span>
+          <header>
+            <div className="container mx-auto px-4 py-4 relative">
+              <div className="absolute right-4">
+                <Button variant="outline" className="bg-white">
+                  <Link
+                    href="/profile"
+                  >
+                    View My Profile
+                  </Link>
+                </Button>
+              </div>
+              <div className="flex justify-center items-center">
+                <div className="flex items-center space-x-2">
+                  <img src={VerdeLogo.src} alt="verde logo" className='h-8 w-8' />
+                  <span className="text-2xl font-bold text-customgreen">verde</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
           {/* Chat Messages */}
           <div className="flex-1 p-4 overflow-y-auto">
             {messages.map((msg) => (
@@ -248,7 +260,7 @@ export default function Component() {
                 placeholder="Type your message here..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="flex-1"
+                className="flex-1 bg-white"
               />
               <Button type="submit" size="icon">
                 <Send className="h-5 w-5" aria-hidden="true" />

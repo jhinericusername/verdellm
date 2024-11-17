@@ -1,3 +1,4 @@
+import { Sidebar } from "lucide-react";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -10,8 +11,10 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-			maincolor: '#fffaeeff',
-			sidebarcolor: '#fff9ebff',
+			// maincolor: '#fffaeeff',
+			maincolor: '#F8EDE3',
+			// sidebarcolor: '#fff9ebff',
+			sidebarcolor: '#ede4dd',
 			customgreen: "#11a97d",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
