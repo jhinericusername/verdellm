@@ -90,12 +90,12 @@ export default function Component() {
           </div>
 
           {/* New options at the bottom */}
-          <div className="mt-4 flex justify-between">
-            <Button variant="ghost" size="sm" className="w-1/2">
+          <div className="mt-4 flex justify-between space-x-2">
+            <Button variant="ghost" size="sm" className="w-1/2 shadow bg-white">
               <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
               Create Agent
             </Button>
-            <Button variant="ghost" size="sm" className="w-1/2">
+            <Button variant="ghost" size="sm" className="w-1/2 shadow bg-white">
               <Settings className="h-4 w-4 mr-2" aria-hidden="true" />
               Settings
             </Button>
