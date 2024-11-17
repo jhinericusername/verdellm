@@ -10,6 +10,9 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+			maincolor: '#fffaeeff',
+			sidebarcolor: '#fff9ebff',
+			customgreen: "#11a97d",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
