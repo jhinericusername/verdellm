@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {oswald} from '@/app/fonts/fonts';
+import {sourceSans} from '@/app/fonts/fonts';
 
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${oswald.className} antialiased`}
+        className={`${sourceSans.className} antialiased`}
       >
         {children}
       </body>
