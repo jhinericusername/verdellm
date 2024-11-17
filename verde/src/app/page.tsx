@@ -5,18 +5,60 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Paperclip, Send, User, Plus, Settings, Zap, Leaf, ExternalLink, Earth, Apple, ChartNoAxesCombined} from 'lucide-react'
-import Logo from "@/lib/images/verdelogo.png"
+import VerdeLogo from "@/lib/images/verdelogo.png"
+import GPTLogo from "@/lib/images/ChatGPT-Logo.png"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader, 
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 type Message = {
   id: number;
   text: string;
   sender: 'user' | 'ai';
   chatGPTLink?: string;
+  showModal?: boolean;
 }
 
 export default function Component() {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
+  const [openModal, setOpenModal] = useState<number | null>(null)
+
+    const comparisonData = [
+    {
+      prompt: "Explain the concept of quantum entanglement.",
+      verdeResponse: "Quantum entanglement is a phenomenon in quantum physics where two or more particles become interconnected in such a way that the quantum state of each particle cannot be described independently, even when separated by a large distance. This means that measuring the state of one particle instantly affects the state of its entangled partner, regardless of the distance between them.",
+      chatGPTResponse: "Quantum entanglement is a fascinating phenomenon in quantum mechanics where two or more particles become 'entangled' and share a quantum state. This means that the properties of these particles are correlated, and measuring one particle instantly affects the other, no matter how far apart they are. Einstein famously called this 'spooky action at a distance.' It's a cornerstone of quantum computing and has potential applications in secure communication.",
+      verdeMetrics: {
+        accuracy: "95%",
+        speed: "50ms",
+        coherence: "High",
+        creativity: "Medium"
+      },
+      chatGPTMetrics: {
+        accuracy: "93%",
+        speed: "100ms",
+        coherence: "High",
+        creativity: "High"
+      }
+    }
+  ]
+
+  const MetricRow = ({ metrics }: { metrics: Record<string, string> }) => (
+    <div className="bg-muted p-4 rounded-lg">
+      <div className="grid grid-cols-4 gap-4">
+        {Object.entries(metrics).map(([key, value]) => (
+          <div key={key} className="text-center">
+            <p className="font-medium text-sm">{key}</p>
+            <p className="text-lg font-bold">{value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,7 +73,8 @@ export default function Component() {
           id: Date.now() + 1, 
           text: "This is a simulated AI response.", 
           sender: 'ai',
-          chatGPTLink: `https://chat.openai.com/c/${Date.now()}` // Simulated ChatGPT link
+          chatGPTLink: `https://chat.openai.com/c/${Date.now()}`, // Simulated ChatGPT link
+          showModal: false
         }
         setMessages(prevMessages => [...prevMessages, aiResponse])
       }, 1000)
@@ -73,7 +116,6 @@ export default function Component() {
                   </CardContent>
                 </Card>
                 <div className="flex items-center justify-center w-8">
-                  {/* <Zap className="h-6 w-6 text-gray-500" aria-hidden="true" /> */}
                   {data.icon === "Zap" && <Zap className="h-6 w-6 text-gray-500" aria-hidden="true" />}
                   {data.icon === "Apple" && <Apple className="h-6 w-6 text-gray-500" aria-hidden="true" />}
                   {data.icon === "ChartNoAxesCombined" && <ChartNoAxesCombined className="h-6 w-6 text-gray-500" aria-hidden="true" />}
@@ -108,8 +150,7 @@ export default function Component() {
         <header >
           <div className="container mx-auto px-4 py-4 flex justify-center items-center">
             <div className="flex items-center space-x-2">
-              {/* <Leaf className="h-8 w-8 text-green-500" aria-hidden="true" /> */}
-              <img src={Logo.src} alt="verde logo" className='h-8 w-8' />
+              <img src={VerdeLogo.src} alt="verde logo" className='h-8 w-8' />
               <span className="text-2xl font-bold text-customgreen">verde</span>
             </div>
           </div>
@@ -121,31 +162,79 @@ export default function Component() {
                 <div className={`max-w-[70%] p-3 rounded-lg ${msg.sender === 'user' ? 'bg-customgreen text-white' : 'bg-gray-200'}`}>
                   {msg.sender === 'ai' && (
                     <div className="flex items-center mb-2">
-                      {/* <div className="bg-green-500 rounded-full p-2 mr-2"> */}
                       <div className="p-2">
-                        <img src={Logo.src} alt="verde logo" className='h-6 w-6' />
+                        <img src={VerdeLogo.src} alt="verde logo" className='h-6 w-6' />
                       </div>
-                        {/* <User className="h-4 w-4 text-white" aria-hidden="true" /> */}
-                      {/* </div> */}
                       <span className="font-semibold">verde</span>
                     </div>
                   )}
                   <p>{msg.text}</p>
                   {msg.chatGPTLink && (
-                    <a 
-                      href={msg.chatGPTLink} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <button 
+                      onClick={() => setOpenModal(msg.id)}
                       className="flex items-center mt-2 text-sm text-blue-600 hover:underline"
                     >
-                      View ChatGPT response
+                      Compare Models 
                       <ExternalLink className="h-4 w-4 ml-1" aria-hidden="true" />
-                    </a>
+                    </button>
                   )}
                 </div>
               </div>
             ))}
           </div>
+
+          <Dialog open={openModal !== null} onOpenChange={() => setOpenModal(null)}>
+            <DialogContent className="max-w-[90vw] w-[1200px] min-h-[80vh] max-h-[90vh] overflow-y-auto">
+              
+          <div className="space-y-8">
+            <h3 className="text-3xl font-bold text-center">LLM Comparison</h3>
+            {comparisonData.map((item, index) => (
+              <div key={index} className="space-y-4">
+                <div className="flex bg-white shadow rounded-lg overflow-hidden">
+                  <div className="w-1/4 bg-muted p-4 flex items-center justify-center">
+                    <h3 className="font-semibold text-lg text-center">Prompt</h3>
+                  </div>
+                  <div className="w-3/4 p-4">
+                    <p>{item.prompt}</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  {/* Verde Response */}
+                  <div className="flex bg-white shadow rounded-lg overflow-hidden">
+                    <div className="w-1/4 bg-muted p-4 flex flex-col justify-center items-center space-y-2">
+                      <img src={VerdeLogo.src} alt="" className="h-20 w-20"/>
+                      <h3 className="font-semibold text-lg text-center">Verde</h3>
+                    </div>
+                    <div className="w-3/4 flex flex-col">
+                      <div className="p-3 flex-grow">
+                        <p>{item.verdeResponse}</p>
+                      </div>
+                      <div className="p-4">
+                        <MetricRow metrics={item.verdeMetrics} />
+                      </div>
+                    </div>
+                  </div>
+                  {/* ChatGPT Response */}
+                  <div className="flex bg-white shadow rounded-lg overflow-hidden">
+                    <div className="w-1/4 bg-muted p-4 flex flex-col justify-center items-center space-y-2">
+                      <img src={GPTLogo.src} alt="" className="h-20"/>
+                      <h3 className="font-semibold text-lg text-center">ChatGPT</h3>
+                    </div>
+                    <div className="w-3/4 flex flex-col">
+                      <div className="p-4">
+                        <MetricRow metrics={item.chatGPTMetrics} />
+                      </div>
+                      <div className="p-4 flex-grow">
+                        <p>{item.chatGPTResponse}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
           {/* Input Area */}
           <div className="p-4 border-t">
