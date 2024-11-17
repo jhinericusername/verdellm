@@ -184,7 +184,7 @@ export default function Component() {
           </div>
 
           <Dialog open={openModal !== null} onOpenChange={() => setOpenModal(null)}>
-            <DialogContent className="max-w-[90vw] w-[1200px] min-h-[80vh] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-[90vw] w-[1200px] min-h-[80vh] max-h-[90vh] overflow-y-auto ">
               
           <div className="space-y-8">
             <h3 className="text-3xl font-bold text-center">LLM Comparison</h3>
