@@ -1,2 +1,3 @@
-# sustainllm2
+## verde llm
+
 the worlds most sustainable model
